@@ -21,7 +21,12 @@ const cachedResponse = localStorageKey => {
         })
         .catch(error => {
           // handle error
-          reject(error.response.data.message);
+          let error_message = [
+            error.response.data.message,
+            'Come back at ',
+            new Date(error.response.headers['x-ratelimit-reset'] * 1000),
+          ].join(' ');
+          reject(error_message);
         });
     });
   }
