@@ -1,5 +1,5 @@
+import AuthToken from '../env.example';
 import axios from 'axios';
-import AuthToken from '../env';
 const cachedResponse = (localStorageKey) => {
   let cacheHit = sessionStorage.getItem(localStorageKey) || null;
   if (cacheHit) {
