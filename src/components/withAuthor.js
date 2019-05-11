@@ -12,7 +12,7 @@ const withAuthor = BaseComponent => {
   return class extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {data: [], loading: true};
+      this.state = {authors: [], loading: true};
     }
 
     componentDidMount = props => {
