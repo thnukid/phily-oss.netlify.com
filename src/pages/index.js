@@ -10,19 +10,24 @@ const UpdatedComponent = withAuthor(Card);
 class IndexPage extends React.Component {
   constructor() {
     super();
-    this.state = {data: [], loading: true};
+    this.state = {data: [], loading: true, error: false, message_error: ''};
   }
   componentDidMount = () => {
     cachedResponse(content_url)
       .then(response => {
-        this.setState({data: response.data, loading: false});
+        this.setState({data: response.data, loading: false, error: false});
       })
-      .catch(function(error) {
+      .catch((error) => {
         // handle error
         console.log(error);
+        this.setState({loading: false, error: true, message_error: error});
       });
   };
   render = () => {
+    if(this.state.error) {
+      return <Layout><b>Github API says</b> {this.state.message_error}</Layout>;
+    }
+
     if (this.state.loading) {
       return <Layout>Loading</Layout>;
     } else {
