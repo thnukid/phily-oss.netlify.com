@@ -13,7 +13,7 @@ class IndexPage extends React.Component {
     super();
     this.state = {data: [], loading: true};
   }
-  componentWillMount = () => {
+  componentDidMount = () => {
     cachedResponse(content_url)
       .then(response => {
         this.setState({data: response.data, loading: false});

@@ -15,7 +15,7 @@ const withAuthor = BaseComponent => {
       this.state = {data: [], loading: true};
     }
 
-    componentWillMount = props => {
+    componentDidMount = props => {
       const authors_url = [this.props.data.url, 'stats/contributors'].join('/');
       cachedResponse(authors_url)
         .then(response => {
