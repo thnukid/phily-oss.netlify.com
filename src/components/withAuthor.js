@@ -23,12 +23,13 @@ const withAuthor = BaseComponent => {
         })
         .catch(function(error) {
           // handle error
+          this.setState({loading: true});
           console.log(error);
         });
     };
 
     render() {
-      if (this.state.loading) {
+      if (this.state.loading || !this.state.authors) {
         return <div>retrieving authors</div>;
       } else {
         let author_items = this.state.authors
