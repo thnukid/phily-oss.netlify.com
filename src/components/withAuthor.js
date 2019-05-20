@@ -31,7 +31,7 @@ const withAuthor = BaseComponent => {
 
     render() {
       if (this.state.loading || !this.state.authors) {
-        return <div>retrieving authors</div>;
+        return <BaseComponent {...this.props} />;
       }
       let authors = this.state.authors.map((item, index) => (
         <Author key={index} author={item.author}>
