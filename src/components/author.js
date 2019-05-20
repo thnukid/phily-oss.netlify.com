@@ -11,7 +11,7 @@ const Author = props => (
           <a href={props.author.html_url}>{props.author.login}</a>
         </p>
         <p className="subtitle is-6">
-          <small>{props.total} Commits</small> {props.children}
+          {props.children}
         </p>
       </div>
     </div>
