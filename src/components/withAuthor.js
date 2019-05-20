@@ -22,7 +22,7 @@ const withAuthor = BaseComponent => {
           let author_items = response.data.sort((a, b) => b.total - a.total);
           this.setState({authors: author_items, loading: false});
         })
-        .catch(function(error) {
+        .catch((error) => {
           // handle error
           this.setState({loading: true});
           console.log(error);
