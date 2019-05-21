@@ -13,12 +13,12 @@ const Author = props => (
         </figure>
       </div>
       <div className="media-content">
-        <p className="subtitle is-6">
+        <p className="title is-6">
           {props.commits} Commits
           <br />
           {props.children}
         </p>
-        <p className="title is-6">
+        <p className="subtitle is-6">
           <small>by</small>{' '}<a href={props.author.html_url}>{props.author.login}</a>
         </p>
       </div>
