@@ -16,7 +16,7 @@ const Card = props => (
               </figure>
             </div>
             <div className="media-content">
-              <p className="title is-4">
+              <p className="title is-3">
                 <a
                   href={props.data.html_url}
                   target="_blank"
@@ -29,7 +29,7 @@ const Card = props => (
                   </span>
                 )}
               </p>
-              <p className="subtitle is-6">
+              <p className="subtitle is-5">
                 <a
                   href={props.data.html_url}
                   target="_blank"
@@ -37,7 +37,7 @@ const Card = props => (
                   {props.data.full_name}
                 </a>{' '}
                 {props.data.language && (
-                  <span class="tag is-light">{props.data.language}</span>
+                  <span className="tag is-light">{props.data.language}</span>
                 )}
               </p>
             </div>
