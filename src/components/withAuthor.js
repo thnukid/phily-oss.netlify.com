@@ -36,7 +36,7 @@ const withAuthor = BaseComponent => {
         return <BaseComponent {...this.props} />;
       }
       let authors = this.state.authors.map((item, index) => (
-        <Author key={index} author={item.author} total={commits}>
+        <Author key={index} author={item.author}>
           <LOCAdded
             added={item.weeks
               .map(item => item.a)
