@@ -4,7 +4,6 @@ import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
 
 import './all.scss'
-import Header from './header'
 import Footer from './footer'
 import Hero from './hero'
 
