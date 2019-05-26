@@ -22,7 +22,7 @@ const withAuthor = BaseComponent => {
           if(!response) {
             this.setState({loading: true});
           } else {
-            let author_items = response.data.sort(
+            let author_items = [].slice.call(response.data).sort(
               (a, b) => b.total - a.total,
             );
             this.setState({authors: author_items, loading: false});
