@@ -5,17 +5,29 @@ import withAuthor from '../components/withAuthor';
 import cachedResponse from '../helpers/cacheResponse';
 
 const content_url = 'https://api.github.com/orgs/philips-software/repos';
-const UpdatedComponent = withAuthor(Card);
+const CardAuthorComponent = withAuthor(Card);
 
 class IndexPage extends React.Component {
   constructor() {
     super();
-    this.state = {data: [], loading: true, error: false, message_error: ''};
+    this.state = {
+      data: [],
+      filteredRepos: [],
+      repoFilter: null,
+      loading: true,
+      error: false,
+      message_error: '',
+    };
   }
   componentDidMount = () => {
     cachedResponse(content_url)
       .then(response => {
-        this.setState({data: response.data, loading: false, error: false});
+        this.setState({
+          data: response.data,
+          filteredRepos: response.data,
+          loading: false,
+          error: false,
+        });
       })
       .catch(error => {
         // handle error
@@ -26,13 +38,23 @@ class IndexPage extends React.Component {
 
   mapLanguages = () => {
     return this.state.data
-      .map(item => item.language)
-      .filter((v, i, a) => a.indexOf(v) === i);
+      .map(item => (item.language ? item.language : 'Other'))
+      .filter((v, i, a) => a.indexOf(v) === i)
+      .sort((a, b) => a.localeCompare(b));
   };
-  mapLicenses = () => {
-    return this.state.data
-      .map(item => item.license)
-      .filter((v, i, a) => a.indexOf(v) === i);
+  filterRepos = (repoFilter, event) => {
+    let filteredRepos = this.state.data;
+    filteredRepos = filteredRepos.filter(repo => {
+      let repoLanguage =
+        repo.language && repo.language != '' ? repo.language : 'Other';
+      return (
+        repoLanguage.toLowerCase().indexOf(repoFilter.toLowerCase()) !== -1
+      );
+    });
+    this.setState({
+      filteredRepos,
+      repoFilter
+    });
   };
   render = () => {
     if (this.state.error) {
@@ -47,29 +69,33 @@ class IndexPage extends React.Component {
       return <Layout>Loading</Layout>;
     } else {
       let tags = this.mapLanguages().map((language, index) => (
-        <div class="level-item has-text-centered">
-          <span className="tag is-light is-medium" key={index}>
+        <div className="level-item has-text-centered">
+          <a
+            onClick={event => this.filterRepos(language, event)}
+            className="button is-rounded is-light is-medium"
+            key={index}>
             {language}
-          </span>
+          </a>
         </div>
       ));
-      let licenses = this.mapLicenses().map((item, index) => (
-        item && <p key={index}>{item.name}</p>
-      ));
-      let items = this.state.data.map((item, index) => (
-        <UpdatedComponent key={index} data={item} />
+      let cardAuthorComponent = this.state.filteredRepos.map((item, index) => (
+        <CardAuthorComponent key={index} data={item} />
       ));
       return (
         <Layout>
-          <h1 class="title is-6">
+          <p class="subtitle is-4">
             Contributions in {tags.length} programming languages:
-          </h1>
-          <div class="level">{tags}</div>
+          </p>
+          <div className="level">{tags}</div>
           <br />
-          <h1 class="title is-6">
-            🎉 <b>{items.length}</b> open source software (OSS) projects
-          </h1>
-          {items}
+          <p className="subtitle is-4">
+            <b>{cardAuthorComponent.length}</b>{' '}
+            <span aria-label="tada" role="img">
+              🎉
+            </span>
+            open source software (OSS) projects
+          </p>
+          {cardAuthorComponent}
         </Layout>
       );
     }
