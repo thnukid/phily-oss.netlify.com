@@ -19,22 +19,26 @@ const withAuthor = BaseComponent => {
       const authors_url = [this.props.data.url, 'stats/contributors'].join('/');
       cachedResponse(authors_url)
         .then(response => {
-          let author_items = (response.data || []).sort(
-            (a, b) => b.total - a.total,
-          );
-          this.setState({authors: author_items, loading: false});
+          if(!response) {
+            this.setState({loading: true});
+          } else {
+            let author_items = response.data.sort(
+              (a, b) => b.total - a.total,
+            );
+            this.setState({authors: author_items, loading: false});
+          }
         })
         .catch(error => {
-          // handle error
           this.setState({loading: true});
           console.log(error);
         });
     };
 
     render() {
-      if (this.state.loading || !this.state.authors) {
+      if (this.state.loading) {
         return <BaseComponent {...this.props} />;
       }
+
       let authors = this.state.authors.map((item, index) => (
         <Author key={index} author={item.author} commits={item.total}>
           <LOCAdded
